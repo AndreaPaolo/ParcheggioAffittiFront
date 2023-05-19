@@ -1,0 +1,67 @@
+<app-main-nav></app-main-nav>
+<div class="container">
+  <h2 class="title"><strong>Lista delle sedi</strong></h2>
+  <div class="form-group">
+    <button class="btn btn-success" type="button" id="addStudent" (click)="open(content)">Aggiungi sede</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th class="center_object">Nome</th>
+        <th class="center_object">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of sedi | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td class="center_object">{{s.nome}}</td>
+        <td class="center_object">
+          <button #modifySede type="button" class="btn btn-primary fa fa-edit" value="{{s.id}}" (click)="openSedeModify(modify, modifySede.value)">Modifica</button>
+          <button #deleteSede_ type="button" class="btn btn-danger" value="{{s.id}}" (click)="deleteSede(deleteSede_.value)">Elimina</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Aggiungi sede</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Nome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="nome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-success" (click)="addSede()">Aggiungi</button>
+  </div>
+</ng-template>
+
+<ng-template #modify let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifica sede</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Nome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="nome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-primary" (click)="modifySede()">Modifica</button>
+  </div>
+</ng-template>

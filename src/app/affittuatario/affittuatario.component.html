@@ -1,0 +1,95 @@
+<app-main-nav></app-main-nav>
+<div class="container">
+  <h2 class="title"><strong>Lista degli Affittuatari</strong></h2>
+  <div class="form-group">
+    <button class="btn btn-success" type="button" id="addStudent" (click)="open(content)">Aggiungi affittuatario</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th class="center_object">Nome</th>
+        <th class="center_object">Cognome</th>
+        <th class="center_object">Numero di telefono</th>
+        <th class="center_object">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of affittuatari | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td class="center_object">{{s.nome}}</td>
+        <td class="center_object">{{s.cognome}}</td>
+        <td class="center_object">{{s.numero_telefono}}</td>
+        <td class="center_object">
+          <button #modifySede type="button" class="btn btn-primary fa fa-edit" value="{{s.id}}" (click)="openAffittuatarioModify(modify, modifySede.value)">Modifica</button>
+          <button #deleteSede_ type="button" class="btn btn-danger" value="{{s.id}}" (click)="deleteAffittuatario(deleteSede_.value)">Elimina</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Aggiungi affittuatario</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Nome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="nome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Cognome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="cognome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Numero telefono</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="numero_telefono" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-success" (click)="addAffittuatario()">Aggiungi</button>
+  </div>
+</ng-template>
+
+<ng-template #modify let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifica affittuatario</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Nome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="nome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Cognome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="cognome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Numero telefono</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="numero_telefono" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-primary" (click)="modifyAffittuatario()">Modifica</button>
+  </div>
+</ng-template>

@@ -1,0 +1,56 @@
+<app-main-nav></app-main-nav>
+<div class="content">
+  <div class="container">
+      <!-- end row -->
+      <div class="row">
+          <div class="col-xl">
+              <div class="row">
+                  <div class="col-sm-4">
+                      <div class="card-box tilebox-one"><i class="icon-layers float-right text-muted"></i>
+                          <h6 class="text-muted text-uppercase mt-0">Sedi</h6>
+                          <h2 class="" data-plugin="counterup">{{sedi.length}}</h2></div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-sm-4">
+                      <div class="card-box tilebox-one"><i class="icon-paypal float-right text-muted"></i>
+                          <h6 class="text-muted text-uppercase mt-0">Parcheggi</h6>
+                          <h2 class="" data-plugin="counterup">{{parcheggi.length}}</h2></div>
+                  </div>
+                  <!-- end col -->
+                  <div class="col-sm-4">
+                      <div class="card-box tilebox-one"><i class="icon-rocket float-right text-muted"></i>
+                          <h6 class="text-muted text-uppercase mt-0">Affittuatari</h6>
+                          <h2 class="" data-plugin="counterup">{{affittuatari.length}}</h2></div>
+                  </div>
+                  <!-- end col -->
+              </div>
+              <div class="card-box">
+                  <h4 class="header-title mb-3">Affitti</h4>
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th>Data fine</th>
+                                  <th>Data inizio</th>
+                                  <th>Parcheggio</th>
+                                  <th>Affittuatario</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let s of affitti">
+                                <td class="center_object">{{s.data_fine | date: 'dd-MM-yyyy'}}</td>
+                                <td class="center_object">{{s.data_inizio | date: 'dd-MM-yyyy'}}</td>
+                                <td class="center_object">{{s.parcheggio.nome}}</td>
+                                <td class="center_object">{{s.affittuatario.nome}} {{s.affittuatario.cognome}}</td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <!-- end col -->
+      </div>
+      <!-- end row -->
+  </div>
+  <!-- container -->
+</div>

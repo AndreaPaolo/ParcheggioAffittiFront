@@ -1,0 +1,91 @@
+<app-main-nav></app-main-nav>
+<div class="container">
+  <h2 class="title"><strong>Lista dei Parcheggi</strong></h2>
+  <div class="form-group">
+    <button class="btn btn-success" type="button" id="addStudent" (click)="open(content)">Aggiungi parcheggio</button>
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th class="center_object">Nome</th>
+        <th class="center_object">Sede</th>
+        <th class="center_object">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of parcheggi | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td class="center_object">{{s.nome}}</td>
+        <td *ngIf="s.sede != null" class="center_object">{{s.sede.nome}}</td>
+
+        <td class="center_object">
+          <button #assignSede_ type="button" class="btn btn-primary fa fa-edit" value="{{s.id}}" (click)="openAssignSede(assign, assignSede_.value)">Assegna sede</button>
+          <button #modifySede type="button" class="btn btn-primary fa fa-edit" value="{{s.id}}" (click)="openParcheggioModify(modify, modifySede.value)">Modifica</button>
+          <button #deleteSede_ type="button" class="btn btn-danger" value="{{s.id}}" (click)="deleteParcheggio(deleteSede_.value)">Elimina</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Aggiungi parcheggio</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Nome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="nome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-success" (click)="addParcheggio()">Aggiungi</button>
+  </div>
+</ng-template>
+
+<ng-template #modify let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifica parcheggio</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label for="dateOfBirth">Nome</label>
+        <div class="input-group">
+          <input type="text" class="form-control" [(ngModel)]="nome" [ngModelOptions]="{standalone: true}" required>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-primary" (click)="modifyParcheggio()">Modifica</button>
+  </div>
+</ng-template>
+
+<ng-template #assign let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifica parcheggio</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group" required>
+        <label>Sede</label>
+        <select class="form-control" [(ngModel)]="sede_id" (change)="onChangeIdSedeForAdd($event)" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let c of sedi" value="{{c.id}}">{{c.nome}}</option>
+        </select>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-primary" (click)="assingSede()">Assegna</button>
+  </div>
+</ng-template>

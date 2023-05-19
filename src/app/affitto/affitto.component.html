@@ -1,0 +1,111 @@
+<app-main-nav></app-main-nav>
+<div class="container">
+  <h2 class="title"><strong>Lista degli Affitti</strong></h2>
+  <div class="form-group">
+    <button class="btn btn-success" type="button" id="addStudent" (click)="open(content)">Aggiungi Affitto</button>
+  </div>
+  <div class="form-group">
+  </div>
+  <table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+      <tr>
+        <th class="center_object">Affittuatario</th>
+        <th class="center_object">Paarcheggio</th>
+        <th class="center_object">Data inizio</th>
+        <th class="center_object">Data fine</th>
+        <th class="center_object">Azioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let s of affitti | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td class="center_object">{{s.affittuatario.nome}} {{s.affittuatario.cognome}}</td>
+        <td class="center_object">{{s.parcheggio.nome}}</td>
+        <td class="center_object">{{s.data_inizio | date: 'dd-MM-yyyy'}}</td>
+        <td class="center_object">{{s.data_fine | date: 'dd-MM-yyyy'}}</td>
+        <td class="center_object">
+          <button #modifyAffitto type="button" class="btn btn-primary fa fa-edit" value="{{s.id}}" (click)="openAffittoModify(modify, modifyAffitto.value)">Modifica</button>
+          <button #deleteAffitto_ type="button" class="btn btn-danger" value="{{s.id}}" (click)="deleteAffitto(deleteAffitto_.value)">Elimina</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="pagination">
+    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Aggiungi parcheggio</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group" required>
+        <label>Affittuatario</label>
+        <select class="form-control" [(ngModel)]="affittuatario_id" (change)="onChangeIdForAdd($event, 'affituatario')" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let a of affittuatari" value="{{a.id}}">{{a.nome}} {{a.cognome}}</option>
+        </select>
+      </div>
+      <div class="form-group" required>
+        <label>Parcheggio</label>
+        <select class="form-control" [(ngModel)]="parcheggio_id" (change)="onChangeIdForAdd($event, 'parcheggio')" [ngModelOptions]="{standalone: true}">
+          <option *ngFor="let p of parcheggi" value="{{p.id}}">{{p.nome}} - {{p.sede.nome}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Data inizio dell'affitto</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd-mm-yyyy" name="dpinizio" [(ngModel)]="data_inizio" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Data fine dell'affitto</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd-mm-yyyy" name="dpfine" [(ngModel)]="data_fine" ngbDatepicker #c="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="c.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-success" (click)="addAffitto()">Aggiungi</button>
+  </div>
+</ng-template>
+
+<ng-template #modify let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Modifica affitto</h4>
+  </div>
+  <div class="modal-body">
+    <form>
+      <div class="form-group">
+        <label>Data inizio dell'affitto</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd-mm-yyyy" name="dpinizio" [(ngModel)]="data_inizio" ngbDatepicker #d="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="d.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Data fine dell'affitto</label>
+        <div class="input-group">
+          <input class="form-control" placeholder="dd-mm-yyyy" name="dpfine" [(ngModel)]="data_fine" ngbDatepicker #c="ngbDatepicker">
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary bi bi-calendar3" (click)="c.toggle()" type="button"></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" aria-label="Close" (click)="modal.dismiss()" style="display: inline;">Annulla</button>
+    <button type="button" class="btn btn-primary" (click)="modifyAffitto()">Modifica</button>
+  </div>
+</ng-template>
